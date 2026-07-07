@@ -134,6 +134,40 @@
             margin-top: 15px;
         }
         .link-row .btn { flex: 1 1 auto; text-align: center; }
+
+        /* 非官方彙整卡片（橘色系） */
+        .unofficial-box {
+            border-left: 6px solid #f59e0b;
+            background: #fffbeb;
+        }
+        .badge-source {
+            background-color: #f59e0b;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        .disclaimer {
+            background: #fef3c7;
+            border: 1px dashed #f59e0b;
+            color: #92400e;
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 0.85em;
+            line-height: 1.5;
+            margin: 10px 0 15px 0;
+        }
+        .snapshot-time {
+            font-size: 0.82em;
+            color: #92400e;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+        .snapshot-body { font-size: 0.95em; line-height: 1.6; }
+        .snapshot-body ul { margin: 8px 0; padding-left: 20px; }
+        .snapshot-body li { margin-bottom: 6px; }
     </style>
 </head>
 <body>
@@ -173,6 +207,26 @@
             <a class="btn btn-success" href="https://news.google.com/search?q=%E5%B7%B4%E5%A8%81%E9%A2%B1%E9%A2%A8%20%E6%B5%B7%E8%AD%A6&hl=zh-TW&gl=TW" target="_blank" rel="noopener">📰 「巴威颱風 海警」即時新聞</a>
         </div>
     </div>
+
+    <!-- ===== AI 非官方彙整快照（自動更新區塊；請勿手動改動標記行） ===== -->
+    <!-- AI-SNAPSHOT-START -->
+    <div class="search-box unofficial-box">
+        <h3 style="margin-top:0;">🌐 非官方彙整消息<span class="badge-source">網路 / 社群 / AI 彙整</span></h3>
+        <div class="snapshot-time">🕐 AI 彙整於 2026-07-07 10:34（每隔一段時間自動更新，直到船公司正式公告為止）</div>
+        <div class="disclaimer">
+            ⚠️ 本區為 AI 自動蒐集<strong>網路新聞、氣象論壇、Threads/PTT 等社群</strong>的整理，<strong>非官方公告、尚未經證實</strong>，僅供提前掌握風向參考。<strong>實際行程異動一律以 MSC 官方、旅行社正式通知與船公司簡訊為準。</strong>
+        </div>
+        <div class="snapshot-body">
+            <strong>目前網路/社群綜合研判（截至彙整時間）：</strong>
+            <ul>
+                <li><strong>颱風強度</strong>：巴威為 2026 年第 9 號<strong>強烈颱風</strong>，並持續增強、暴風圈擴大，社群氣象觀測者普遍形容為「又大又強」的颱風。</li>
+                <li><strong>路徑與警報</strong>：各國模式逐漸收斂，研判 <strong>7/9（四）～7/10（五）為北轉最接近台灣</strong>的時段；<strong>海上颱風警報最快 7/9 白天發布</strong>，陸警可能落在 7/9 深夜至 7/10 白天。北台灣 7/10～7/11 影響最劇。</li>
+                <li><strong>郵輪業界慣例（Threads 同業說法）</strong>：只要母港（基隆/高雄）能正常啟航或結束，通常仍會照開，必要時<strong>提早啟航或提前結束</strong>；若需避風則會<strong>更改行程繞離颱風</strong>，安全優先。</li>
+                <li><strong>行程異動</strong>：截至彙整時間，<strong>尚未查到 MSC 榮耀號本航次因巴威颱風調整行程的官方公告</strong>；社群多為預期與臆測，請勿當定案。</li>
+            </ul>
+        </div>
+    </div>
+    <!-- AI-SNAPSHOT-END -->
 
     <!-- 最新資訊時間軸 -->
     <h3>⏳ 即時動態時間軸（最新放最上）</h3>
