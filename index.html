@@ -1,0 +1,210 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>7/9 地中海榮耀號 - 颱風動態即時看板</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+            background-color: #f4f6f9;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+        .header {
+            background-color: #1e3a8a;
+            color: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .refresh-status {
+            font-size: 0.9em;
+            background-color: rgba(255,255,255,0.2);
+            padding: 8px 12px;
+            border-radius: 4px;
+            display: inline-block;
+            margin-top: 10px;
+        }
+        .search-box {
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+        .btn {
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-block;
+        }
+        .btn:hover { background-color: #1d4ed8; }
+        .btn-success { background-color: #10b981; }
+        .btn-success:hover { background-color: #059669; }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+        .form-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .form-control {
+            width: 100%;
+            padding: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+
+        /* 時間軸樣式 */
+        .timeline {
+            position: relative;
+            padding: 20px 0;
+        }
+        .timeline-item {
+            background: white;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border-left: 5px solid #2563eb;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+            position: relative;
+        }
+        .timeline-time {
+            font-size: 0.85em;
+            color: #666;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        .timeline-title {
+            font-size: 1.1em;
+            font-weight: bold;
+            color: #1e3a8a;
+            margin-bottom: 8px;
+        }
+        .timeline-content {
+            font-size: 0.95em;
+            line-height: 1.5;
+        }
+        .badge-alert {
+            background-color: #ef4444;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin-left: 5px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <h2 style="margin:0;">🚢 7/9 地中海榮耀號防颱應變看板</h2>
+        <p style="margin:5px 0 0 0; opacity:0.9;">提供全體登船同仁即時對齊官方與內部最新異動資訊</p>
+        <div class="refresh-status" id="timer-text">頁面將於 300 秒後自動刷新...</div>
+    </div>
+
+    <!-- 快速搜尋區 -->
+    <div class="search-box">
+        <h3>🔍 一鍵追蹤最新情報</h3>
+        <p style="color:#666; font-size:0.9em;">點擊下方按鈕，直接在新分頁查看當前最新搜尋結果：</p>
+        <button class="btn" onclick="searchUpdates()">立即搜尋最新「榮耀號 颱風」新聞</button>
+        <button class="btn btn-success" onclick="location.reload()">手動重新整理網頁</button>
+    </div>
+
+    <!-- 手動輸入新公告（方便同事即時回報 LINE 訊息） -->
+    <div class="search-box">
+        <h3>✍️ 回報最新船班/旅行社消息</h3>
+        <div class="form-group">
+            <label>訊息標題</label>
+            <input type="text" id="input-title" class="form-control" placeholder="例如：雄獅領隊發布最新通知 / 港務局管制消息">
+        </div>
+        <div class="form-group">
+            <label>訊息內容</label>
+            <textarea id="input-content" class="form-control" rows="3" placeholder="請貼上收到的具體文字或變更詳情..."></textarea>
+        </div>
+        <button class="btn btn-success" onclick="addTimelineItem()">發布公告（置頂）</button>
+    </div>
+
+    <!-- 最新資訊時間軸 -->
+    <h3>⏳ 即時動態時間軸（最新放最上）</h3>
+    <div class="timeline" id="timeline-container">
+        <!-- 初始資料 -->
+        <div class="timeline-item">
+            <div class="timeline-time">2026-07-07 10:15</div>
+            <div class="timeline-title">目前現況摘要<span class="badge-alert">重要</span></div>
+            <div class="timeline-content">
+                強烈颱風巴威逼近，預計 7/9 發布海警。目前 MSC 官方與聯營旅行社正在召開緊急應變會議，內部研判「完全不改行程」的機率極低，極可能改為純海上巡航避風。請各位同仁密切留意手機簡訊。
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    // 1. 倒數計時與自動刷新功能 (5分鐘 = 300秒)
+    let timeLeft = 300;
+    const timerText = document.getElementById('timer-text');
+
+    setInterval(() => {
+        timeLeft--;
+        if (timeLeft <= 0) {
+            location.reload();
+        } else {
+            timerText.innerText = `頁面將於 ${timeLeft} 秒後自動刷新...`;
+        }
+    }, 1000);
+
+    // 2. 點擊搜尋動態
+    function searchUpdates() {
+        const query = encodeURIComponent("地中海榮耀號 7/9 颱風 異動 公告");
+        window.open(`https://www.google.com/search?q=${query}`, '_blank');
+    }
+
+    // 3. 同事手動新增公告（置頂排列）
+    function addTimelineItem() {
+        const titleInput = document.getElementById('input-title');
+        const contentInput = document.getElementById('input-content');
+
+        if (!titleInput.value || !contentInput.value) {
+            alert('請填寫標題與內容！');
+            return;
+        }
+
+        const now = new Date();
+        const timeString = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
+
+        const newItem = document.createElement('div');
+        newItem.className = 'timeline-item';
+        newItem.innerHTML = `
+            <div class="timeline-time">${timeString} (同仁回報)</div>
+            <div class="timeline-title">${titleInput.value}</div>
+            <div class="timeline-content">${contentInput.value.replace(/\n/g, '<br>')}</div>
+        `;
+
+        const container = document.getElementById('timeline-container');
+        // 將新節點插入到最前面（最新放最上）
+        container.insertBefore(newItem, container.firstChild);
+
+        // 清空輸入框
+        titleInput.value = '';
+        contentInput.value = '';
+    }
+</script>
+
+</body>
+</html>
