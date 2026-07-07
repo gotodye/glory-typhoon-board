@@ -26,7 +26,8 @@ jobs:
       - name: 執行 AI 彙整並更新 index.html
         id: run
         env:
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          # 沿用你已設好的 secret（名稱雖是 ANTHROPIC_API_KEY，實際存的是 Gemini 金鑰）
+          GEMINI_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
         run: node scripts/update-snapshot.mjs
 
       - name: Commit & push（有變動時）
