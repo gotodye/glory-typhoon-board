@@ -1,0 +1,50 @@
+name: 更新颱風 AI 彙整快照
+
+on:
+  schedule:
+    - cron: "*/10 * * * *"   # 每 10 分鐘（GitHub 排隊時可能延遲數分鐘）
+  workflow_dispatch: {}        # 允許手動觸發（Actions 頁面按 Run workflow）
+
+permissions:
+  contents: write   # 需要 push 更新後的 index.html
+  actions: write    # 偵測到官方公告後自行停用本 workflow
+
+concurrency:
+  group: snapshot-update
+  cancel-in-progress: false
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: 執行 AI 彙整並更新 index.html
+        id: run
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+        run: node scripts/update-snapshot.mjs
+
+      - name: Commit & push（有變動時）
+        run: |
+          git config user.name "typhoon-board-bot"
+          git config user.email "gotodye@gmail.com"
+          if [[ -n "$(git status --porcelain index.html)" ]]; then
+            git add index.html
+            git commit -m "自動更新 AI 颱風彙整快照"
+            git push
+          else
+            echo "內容無變化，略過 commit"
+          fi
+
+      - name: 偵測到官方公告則停用排程
+        if: steps.run.outputs.official == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          echo "已偵測到官方行程公告，停用自動更新排程。"
+          gh workflow disable "更新颱風 AI 彙整快照" || true
