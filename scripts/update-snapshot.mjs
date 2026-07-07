@@ -120,7 +120,7 @@ function buildBlock(parsed, ts) {
   return `${START}
     <div class="search-box unofficial-box">
         <h3 style="margin-top:0;">🌐 非官方彙整消息<span class="badge-source">網路 / 社群 / AI 彙整</span>${officialBadge}</h3>
-        <div class="snapshot-time">🕐 AI 彙整於 ${ts}（雲端每 10 分鐘自動更新，直到船公司正式公告為止）</div>
+        <div class="snapshot-time">🕐 AI 彙整於 ${ts}（雲端每 30 分鐘自動更新，直到船公司正式公告為止）</div>
         <div class="disclaimer">
             ⚠️ 本區為 AI 自動蒐集<strong>網路新聞、氣象論壇、Threads/PTT 等社群</strong>的整理，<strong>非官方公告、尚未經證實</strong>，僅供提前掌握風向參考。<strong>實際行程異動一律以 MSC 官方、旅行社正式通知與船公司簡訊為準。</strong>
         </div>${officialLine}
