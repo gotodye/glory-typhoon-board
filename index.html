@@ -108,6 +108,32 @@
             font-size: 0.8em;
             margin-left: 5px;
         }
+
+        /* 颱風動態地圖 */
+        .map-wrap {
+            position: relative;
+            width: 100%;
+            padding-bottom: 62%; /* 響應式比例，手機也能看 */
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+            background: #eef2f7;
+        }
+        .map-wrap iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: 0;
+        }
+        .link-row {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        .link-row .btn { flex: 1 1 auto; text-align: center; }
     </style>
 </head>
 <body>
@@ -127,18 +153,25 @@
         <button class="btn btn-success" onclick="location.reload()">手動重新整理網頁</button>
     </div>
 
-    <!-- 手動輸入新公告（方便同事即時回報 LINE 訊息） -->
+    <!-- 颱風動態消息（即時風場地圖 + 官方連結） -->
     <div class="search-box">
-        <h3>✍️ 回報最新船班/旅行社消息</h3>
-        <div class="form-group">
-            <label>訊息標題</label>
-            <input type="text" id="input-title" class="form-control" placeholder="例如：雄獅領隊發布最新通知 / 港務局管制消息">
+        <h3>🌀 颱風動態消息</h3>
+        <p style="color:#666; font-size:0.9em; margin-top:0;">
+            下方為<strong>即時風場動態地圖</strong>（資料每小時更新，會動態顯示颱風環流），可用手指縮放、拖曳查看台灣周邊海域狀況：
+        </p>
+        <div class="map-wrap">
+            <iframe
+                title="即時風場動態地圖"
+                src="https://embed.windy.com/embed2.html?lat=23.5&lon=122&detailLat=23.5&detailLon=121&zoom=5&level=surface&overlay=wind&product=ecmwf&menu=&message=true&marker=&calendar=now&pressure=true&type=map&location=coordinates&detail=&metricWind=km%2Fh&metricTemp=%C2%B0C&radarRange=-1"
+                loading="lazy"
+                allowfullscreen>
+            </iframe>
         </div>
-        <div class="form-group">
-            <label>訊息內容</label>
-            <textarea id="input-content" class="form-control" rows="3" placeholder="請貼上收到的具體文字或變更詳情..."></textarea>
+        <div class="link-row">
+            <a class="btn" href="https://www.cwa.gov.tw/V8/C/P/Typhoon/TY_NEWS.html" target="_blank" rel="noopener">📡 中央氣象署 颱風消息（官方）</a>
+            <a class="btn" href="https://www.cwa.gov.tw/V8/C/P/Warning/W23.html" target="_blank" rel="noopener">⚠️ 中央氣象署 海上警報</a>
+            <a class="btn btn-success" href="https://news.google.com/search?q=%E5%B7%B4%E5%A8%81%E9%A2%B1%E9%A2%A8%20%E6%B5%B7%E8%AD%A6&hl=zh-TW&gl=TW" target="_blank" rel="noopener">📰 「巴威颱風 海警」即時新聞</a>
         </div>
-        <button class="btn btn-success" onclick="addTimelineItem()">發布公告（置頂）</button>
     </div>
 
     <!-- 最新資訊時間軸 -->
@@ -173,36 +206,6 @@
     function searchUpdates() {
         const query = encodeURIComponent("地中海榮耀號 7/9 颱風 異動 公告");
         window.open(`https://www.google.com/search?q=${query}`, '_blank');
-    }
-
-    // 3. 同事手動新增公告（置頂排列）
-    function addTimelineItem() {
-        const titleInput = document.getElementById('input-title');
-        const contentInput = document.getElementById('input-content');
-
-        if (!titleInput.value || !contentInput.value) {
-            alert('請填寫標題與內容！');
-            return;
-        }
-
-        const now = new Date();
-        const timeString = `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-${String(now.getDate()).padStart(2,'0')} ${String(now.getHours()).padStart(2,'0')}:${String(now.getMinutes()).padStart(2,'0')}`;
-
-        const newItem = document.createElement('div');
-        newItem.className = 'timeline-item';
-        newItem.innerHTML = `
-            <div class="timeline-time">${timeString} (同仁回報)</div>
-            <div class="timeline-title">${titleInput.value}</div>
-            <div class="timeline-content">${contentInput.value.replace(/\n/g, '<br>')}</div>
-        `;
-
-        const container = document.getElementById('timeline-container');
-        // 將新節點插入到最前面（最新放最上）
-        container.insertBefore(newItem, container.firstChild);
-
-        // 清空輸入框
-        titleInput.value = '';
-        contentInput.value = '';
     }
 </script>
 
