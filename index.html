@@ -168,6 +168,33 @@
         .snapshot-body { font-size: 0.95em; line-height: 1.6; }
         .snapshot-body ul { margin: 8px 0; padding-left: 20px; }
         .snapshot-body li { margin-bottom: 6px; }
+
+        /* AI 綜合預測卡片（靛紫色系） */
+        .predict-box {
+            border-left: 6px solid #6366f1;
+            background: #eef2ff;
+        }
+        .badge-predict {
+            background-color: #6366f1;
+            color: #fff;
+            padding: 2px 8px;
+            border-radius: 4px;
+            font-size: 0.8em;
+            margin-left: 8px;
+            vertical-align: middle;
+        }
+        .predict-verdict {
+            font-size: 1.05em;
+            font-weight: bold;
+            color: #3730a3;
+            background: #e0e7ff;
+            border-radius: 6px;
+            padding: 10px 12px;
+            margin: 10px 0;
+            line-height: 1.5;
+        }
+        .predict-reason { font-size: 0.95em; line-height: 1.6; color: #333; }
+        .predict-conf { font-size: 0.85em; color: #4338ca; font-weight: bold; margin-top: 8px; }
     </style>
 </head>
 <body>
@@ -240,6 +267,17 @@
         </div>
     </div>
     <!-- AI-SNAPSHOT-END -->
+
+    <!-- ===== AI 綜合預測（自動更新區塊；請勿手動改動標記行） ===== -->
+    <!-- AI-PREDICT-START -->
+    <div class="search-box predict-box">
+        <h3 style="margin-top:0;">🔮 AI 綜合預測<span class="badge-predict">AI 推測 · 僅供參考</span></h3>
+        <div class="disclaimer" style="background:#e0e7ff;border-color:#6366f1;color:#3730a3;">
+            ⚠️ 以下為 AI 根據颱風路徑、警報時程、郵輪業界慣例與網路社群消息所做的<strong>綜合研判與可能走向推測</strong>，<strong>並非官方決定、也不保證準確</strong>，實際行程一律以 MSC 官方與船公司簡訊為準。
+        </div>
+        <div class="predict-verdict">尚待首次自動更新產生預測…</div>
+    </div>
+    <!-- AI-PREDICT-END -->
 </div>
 
 <script>
