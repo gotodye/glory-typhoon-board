@@ -2,7 +2,7 @@ name: 更新颱風 AI 彙整快照
 
 on:
   schedule:
-    - cron: "*/30 * * * *"   # 每 30 分鐘（GitHub 排隊時可能延遲數分鐘）
+    - cron: "17 */3 * * *"   # GitHub 內建排程僅作備援（約每3小時、避開整點尖峰）；主要更新由外部 cron-job.org 每30分鐘精準觸發
   workflow_dispatch: {}        # 允許手動觸發（Actions 頁面按 Run workflow）
 
 permissions:
